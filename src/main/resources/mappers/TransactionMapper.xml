@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TransactionMapper">
+
+    <insert id="insert" parameterType="Transaction" useGeneratedKeys="true" keyProperty="txnId">
+        INSERT INTO Transactions (account_id, txn_type, amount, status)
+        VALUES (#{accountId}, #{txnType}, #{amount}, #{status})
+    </insert>
+
+    <select id="findLastTransactions" parameterType="map" resultType="Transaction">
+        SELECT * FROM Transactions
+        WHERE account_id = #{accountId}
+        ORDER BY timestamp DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

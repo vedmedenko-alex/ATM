@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BillMapper">
+
+    <select id="findUnpaidByUser" parameterType="int" resultType="Bill">
+        SELECT * FROM Bills
+        WHERE user_id = #{userId} AND status = 'unpaid'
+    </select>
+
+    <update id="markAsPaid" parameterType="int">
+        UPDATE Bills
+        SET status = 'paid'
+        WHERE bill_id = #{billId}
+    </update>
+
+    <insert id="insert" parameterType="Bill" useGeneratedKeys="true" keyProperty="billId">
+        INSERT INTO Bills (user_id, bill_type, amount, status)
+        VALUES (#{userId}, #{billType}, #{amount}, #{status})
+    </insert>
+
+</mapper>
