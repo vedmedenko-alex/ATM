@@ -4,5 +4,5 @@ import com.solvd.atm.models.User;
 
 public interface IUserDAO extends IGenericDAO<User> {
 
-    User findByCardAndPin(String cardNumber, String pin) throws Exception;
+    User getByCardAndPin(String cardNumber, String pin) throws Exception;
 }

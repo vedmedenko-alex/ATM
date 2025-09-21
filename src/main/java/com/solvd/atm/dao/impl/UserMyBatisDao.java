@@ -26,7 +26,7 @@ public class UserMyBatisDao implements IUserDAO {
     @Override
     public User getById(int id) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectOne("com.solvd.atm.mappers.UserMapper.findById", id);
+            return session.selectOne("com.solvd.atm.mappers.UserMapper.getById", id);
         }
     }
 
@@ -52,12 +52,12 @@ public class UserMyBatisDao implements IUserDAO {
     }
 
     @Override
-    public User findByCardAndPin(String cardNumber, String pin) {
+    public User getByCardAndPin(String cardNumber, String pin) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             User params = new User();
             params.setCardNumber(cardNumber);
             params.setPin(pin);
-            return session.selectOne("com.solvd.atm.mappers.UserMapper.findByCardAndPin", params);
+            return session.selectOne("com.solvd.atm.mappers.UserMapper.getByCardAndPin", params);
         }
     }
 }

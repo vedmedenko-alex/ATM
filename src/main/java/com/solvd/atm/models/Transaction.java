@@ -11,7 +11,6 @@ public class Transaction {
     private String status;
     private Timestamp timestamp;
 
-    // Getters and setters
     public int getTxnId() {
         return txnId;
     }

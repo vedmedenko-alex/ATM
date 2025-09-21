@@ -12,7 +12,7 @@
         <result property="accountType" column="account_type"/>
     </resultMap>
 
-    <select id="findById" parameterType="int" resultMap="AccountResult">
+    <select id="getById" parameterType="int" resultMap="AccountResult">
         SELECT * FROM Accounts WHERE account_id = #{id}
     </select>
 
@@ -20,7 +20,7 @@
         SELECT * FROM Accounts
     </select>
 
-    <select id="findByUserId" parameterType="int" resultMap="AccountResult">
+    <select id="getByUserId" parameterType="int" resultMap="AccountResult">
         SELECT * FROM Accounts WHERE user_id = #{userId}
     </select>
 

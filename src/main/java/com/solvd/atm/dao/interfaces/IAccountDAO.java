@@ -6,7 +6,7 @@ import com.solvd.atm.models.Account;
 
 public interface IAccountDAO extends IGenericDAO<Account> {
 
-    List<Account> findByUserId(int userId) throws Exception;
+    List<Account> getByUserId(int userId) throws Exception;
 
     void updateBalance(int accountId, double newBalance) throws Exception;
 }

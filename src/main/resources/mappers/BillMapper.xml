@@ -13,7 +13,7 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <select id="findById" parameterType="int" resultMap="BillResult">
+    <select id="getById" parameterType="int" resultMap="BillResult">
         SELECT * FROM Bills WHERE bill_id = #{id}
     </select>
 

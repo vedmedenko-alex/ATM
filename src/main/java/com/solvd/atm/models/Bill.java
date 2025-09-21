@@ -8,7 +8,6 @@ public class Bill {
     private double amount;
     private String status;
 
-    // Getters and setters
     public int getBillId() {
         return billId;
     }

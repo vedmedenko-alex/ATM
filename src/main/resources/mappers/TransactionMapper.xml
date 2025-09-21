@@ -14,7 +14,7 @@
         <result property="timestamp" column="timestamp"/>
     </resultMap>
 
-    <select id="findById" parameterType="int" resultMap="TransactionResult">
+    <select id="getById" parameterType="int" resultMap="TransactionResult">
         SELECT * FROM Transactions WHERE txn_id = #{id}
     </select>
 

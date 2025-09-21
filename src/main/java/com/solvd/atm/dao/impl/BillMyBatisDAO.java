@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.solvd.atm.dao.interfaces.IBillDAO;
-
 import com.solvd.atm.models.Bill;
 
 public class BillMyBatisDAO implements IBillDAO {
@@ -27,7 +26,7 @@ public class BillMyBatisDAO implements IBillDAO {
     @Override
     public Bill getById(int id) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectOne("com.solvd.atm.mappers.BillMapper.findById", id);
+            return session.selectOne("com.solvd.atm.mappers.BillMapper.getById", id);
         }
     }
 

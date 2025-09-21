@@ -8,7 +8,6 @@ public class User {
     private String pin;
     private String phone;
 
-    // Getters and setters
     public int getUserId() {
         return userId;
     }

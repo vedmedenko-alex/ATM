@@ -26,7 +26,7 @@ public class AccountMyBatisDao implements IAccountDAO {
     @Override
     public Account getById(int id) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectOne("com.solvd.atm.mappers.AccountMapper.findById", id);
+            return session.selectOne("com.solvd.atm.mappers.AccountMapper.getById", id);
         }
     }
 
@@ -52,9 +52,9 @@ public class AccountMyBatisDao implements IAccountDAO {
     }
 
     @Override
-    public List<Account> findByUserId(int userId) {
+    public List<Account> getByUserId(int userId) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectList("com.solvd.atm.mappers.AccountMapper.findByUserId", userId);
+            return session.selectList("com.solvd.atm.mappers.AccountMapper.getByUserId", userId);
         }
     }
 
