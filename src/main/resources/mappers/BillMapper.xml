@@ -3,22 +3,47 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="BillMapper">
+<mapper namespace="com.solvd.atm.mappers.BillMapper">
 
-    <select id="findUnpaidByUser" parameterType="int" resultType="Bill">
-        SELECT * FROM Bills
-        WHERE user_id = #{userId} AND status = 'unpaid'
+    <resultMap id="BillResult" type="com.solvd.atm.models.Bill">
+        <id property="billId" column="bill_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="billType" column="bill_type"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="findById" parameterType="int" resultMap="BillResult">
+        SELECT * FROM Bills WHERE bill_id = #{id}
     </select>
 
-    <update id="markAsPaid" parameterType="int">
-        UPDATE Bills
-        SET status = 'paid'
-        WHERE bill_id = #{billId}
-    </update>
+    <select id="findAll" resultMap="BillResult">
+        SELECT * FROM Bills
+    </select>
 
-    <insert id="insert" parameterType="Bill" useGeneratedKeys="true" keyProperty="billId">
+    <select id="findUnpaidByUser" parameterType="int" resultMap="BillResult">
+        SELECT * FROM Bills WHERE user_id = #{userId} AND status = 'unpaid'
+    </select>
+
+    <insert id="insert" parameterType="com.solvd.atm.models.Bill" useGeneratedKeys="true" keyProperty="billId">
         INSERT INTO Bills (user_id, bill_type, amount, status)
         VALUES (#{userId}, #{billType}, #{amount}, #{status})
     </insert>
+
+    <update id="update" parameterType="com.solvd.atm.models.Bill">
+        UPDATE Bills
+        SET user_id=#{userId}, bill_type=#{billType}, amount=#{amount}, status=#{status}
+        WHERE bill_id=#{billId}
+    </update>
+
+    <update id="markAsPaid" parameterType="int">
+        UPDATE Bills
+        SET status='paid'
+        WHERE bill_id=#{billId}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM Bills WHERE bill_id=#{id}
+    </delete>
 
 </mapper>

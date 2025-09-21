@@ -3,25 +3,46 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="AccountMapper">
+<mapper namespace="com.solvd.atm.mappers.AccountMapper">
 
-    <select id="findById" parameterType="int" resultType="Account">
+    <resultMap id="AccountResult" type="com.solvd.atm.models.Account">
+        <id property="accountId" column="account_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="balance" column="balance"/>
+        <result property="accountType" column="account_type"/>
+    </resultMap>
+
+    <select id="findById" parameterType="int" resultMap="AccountResult">
         SELECT * FROM Accounts WHERE account_id = #{id}
     </select>
 
-    <select id="findByUserId" parameterType="int" resultType="Account">
+    <select id="findAll" resultMap="AccountResult">
+        SELECT * FROM Accounts
+    </select>
+
+    <select id="findByUserId" parameterType="int" resultMap="AccountResult">
         SELECT * FROM Accounts WHERE user_id = #{userId}
     </select>
 
-    <insert id="insert" parameterType="Account" useGeneratedKeys="true" keyProperty="accountId">
+    <insert id="insert" parameterType="com.solvd.atm.models.Account" useGeneratedKeys="true" keyProperty="accountId">
         INSERT INTO Accounts (user_id, balance, account_type)
         VALUES (#{userId}, #{balance}, #{accountType})
     </insert>
+
+    <update id="update" parameterType="com.solvd.atm.models.Account">
+        UPDATE Accounts
+        SET user_id=#{userId}, balance=#{balance}, account_type=#{accountType}
+        WHERE account_id=#{accountId}
+    </update>
 
     <update id="updateBalance" parameterType="map">
         UPDATE Accounts
         SET balance = #{balance}
         WHERE account_id = #{accountId}
     </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM Accounts WHERE account_id = #{id}
+    </delete>
 
 </mapper>

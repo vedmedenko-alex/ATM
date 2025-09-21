@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.solvd.atm.models.Transaction;
 
-public interface TransactionDAO extends IGenericDAO<Transaction, Integer> {
+public interface ITransactionDAO extends IGenericDAO<Transaction> {
 
     List<Transaction> findLastTransactions(int accountId, int limit) throws Exception;
 }

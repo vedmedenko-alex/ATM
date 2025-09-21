@@ -2,15 +2,15 @@ package com.solvd.atm.dao.interfaces;
 
 import java.util.List;
 
-public interface IGenericDAO<T, K> {
+public interface IGenericDAO<T> {
 
-    T findById(K id) throws Exception;
+    T getById(int id) throws Exception;
 
-    List<T> findAll() throws Exception;
+    List<T> getAll() throws Exception;
 
-    void save(T entity) throws Exception;
+    void insert(T entity) throws Exception;
 
     void update(T entity) throws Exception;
 
-    void delete(K id) throws Exception;
+    void delete(int id) throws Exception;
 }

@@ -3,26 +3,41 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="UserMapper">
+<mapper namespace="com.solvd.atm.mappers.UserMapper">
 
-    <select id="findById" parameterType="int" resultType="User">
+    <resultMap id="UserResult" type="com.solvd.atm.models.User">
+        <id property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="cardNumber" column="card_number"/>
+        <result property="pin" column="pin"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+
+    <select id="findById" parameterType="int" resultMap="UserResult">
         SELECT * FROM Users WHERE user_id = #{id}
     </select>
 
-    <select id="findByCardAndPin" parameterType="map" resultType="User">
+    <select id="findAll" resultMap="UserResult">
+        SELECT * FROM Users
+    </select>
+
+    <select id="findByCardAndPin" parameterType="com.solvd.atm.models.User" resultMap="UserResult">
         SELECT * FROM Users WHERE card_number = #{cardNumber} AND pin = #{pin}
     </select>
 
-    <insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="insert" parameterType="com.solvd.atm.models.User" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO Users (name, card_number, pin, phone)
         VALUES (#{name}, #{cardNumber}, #{pin}, #{phone})
     </insert>
 
-    <update id="update" parameterType="User">
+    <update id="update" parameterType="com.solvd.atm.models.User">
         UPDATE Users
         SET name=#{name}, card_number=#{cardNumber}, pin=#{pin}, phone=#{phone}
         WHERE user_id=#{userId}
     </update>
 
     <delete id="delete" parameterType="int">
-        DELETE FROM Users WHERE user_id_
+        DELETE FROM Users WHERE user_id=#{id}
+    </delete>
+
+</mapper>
