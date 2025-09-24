@@ -6,5 +6,13 @@ import com.solvd.atm.models.Transaction;
 
 public interface ITransactionDAO extends IGenericDAO<Transaction> {
 
-    List<Transaction> findLastTransactions(int accountId, int limit) throws Exception;
+    /**
+     * Returns all transactions in the system.
+     */
+    List<Transaction> findAll();
+
+    /**
+     * Returns the last N transactions for an account.
+     */
+    List<Transaction> findLastTransactions(int accountId, int limit);
 }

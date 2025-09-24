@@ -53,6 +53,13 @@ public class TransactionMyBatisDao implements ITransactionDAO {
     }
 
     @Override
+    public List<Transaction> findAll() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            return session.selectList("com.solvd.atm.mappers.TransactionMapper.findAll");
+        }
+    }
+
+    @Override
     public List<Transaction> findLastTransactions(int accountId, int limit) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             java.util.Map<String, Object> params = new java.util.HashMap<>();
