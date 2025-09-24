@@ -56,7 +56,23 @@ public class ATMService {
         return true;
     }
 
+    public boolean deposit(int accountId, double amount) throws Exception {
+        if (simulateBankOffline()) {
+            return false;
+        }
+        return true;
+    }
 
+    public boolean payBill(int accountId, int billId) throws Exception {
+        if (simulateBankOffline()) {
+            return false;
+        }
+        return true;
+    }
+
+    public List<Transaction> getLastTransactions(int accountId, int limit) throws Exception {
+        return transactionService.getLastTransactions(accountId, limit);
+    }
 
     private boolean simulateBankOffline() {
         return random.nextInt(10) < 2; // 20% шанс оффлайна

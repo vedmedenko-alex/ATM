@@ -1,8 +1,9 @@
 package com.solvd.atm.services.impl;
 
+import java.util.List;
+
 import com.solvd.atm.dao.impl.TransactionMyBatisDao;
 import com.solvd.atm.models.Transaction;
-import java.util.List;
 
 public class TransactionService {
     private final TransactionMyBatisDao transactionDAO;
@@ -16,6 +17,10 @@ public class TransactionService {
      */
     public List<Transaction> getAllTransactions() {
         return transactionDAO.findAll();
+    }
+
+    public void addTransaction(Transaction transaction) throws Exception {
+        transactionDAO.insert(transaction);
     }
 
     /**
