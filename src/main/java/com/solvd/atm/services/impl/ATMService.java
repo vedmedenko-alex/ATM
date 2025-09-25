@@ -31,10 +31,6 @@ public class ATMService {
         return userService.login(cardNumber, pin);
     }
 
-    public void payBill(int billId) throws Exception {
-        billService.payBill(billId);
-    }
-
     public List<Account> checkBalance(int userId) throws Exception {
         return accountService.getAccountsByUser(userId);
     }
@@ -59,6 +55,61 @@ public class ATMService {
         // вывать транзакшен сервис
 
         return true;
+    }
+
+    public boolean deposit(int accountId, double amount) throws Exception {
+        if (simulateBankOffline()) {
+            return false;
+        }
+
+        Account acc = accountService.getAccountById(accountId);
+        accountService.updateBalance(accountId, acc.getBalance() + amount);
+
+        Transaction txn = new Transaction();
+        txn.setAccountId(accountId);
+        txn.setTxnType("DEPOSIT");
+        txn.setAmount(amount);
+        txn.setStatus("SUCCESS");
+        transactionService.addTransaction(txn);
+
+        System.out.println("Deposited " + amount + " to account " + accountId);
+        return true;
+    }
+
+    public boolean payBill(int accountId, int billId) throws Exception {
+        if (simulateBankOffline()) {
+            return false;
+        }
+
+        Bill bill = billService.getAllBillsForUser(accountService.getAccountById(accountId).getUserId())
+                .stream().filter(b -> b.getBillId() == billId).findFirst().orElse(null);
+        if (bill == null || !"unpaid".equalsIgnoreCase(bill.getStatus())) {
+            System.out.println("Bill not found or already paid.");
+            return false;
+        }
+
+        Account acc = accountService.getAccountById(accountId);
+        if (acc.getBalance() < bill.getAmount()) {
+            System.out.println("Insufficient funds to pay bill.");
+            return false;
+        }
+
+        accountService.updateBalance(accountId, acc.getBalance() - bill.getAmount());
+        billService.payBill(billId);
+
+        Transaction txn = new Transaction();
+        txn.setAccountId(accountId);
+        txn.setTxnType("PAY_BILL");
+        txn.setAmount(bill.getAmount());
+        txn.setStatus("SUCCESS");
+        transactionService.addTransaction(txn);
+
+        System.out.println("Paid bill " + billId + " from account " + accountId);
+        return true;
+    }
+
+    public List<Transaction> getLastTransactions(int accountId, int limit) throws Exception {
+        return transactionService.getLastTransactions(accountId, limit);
     }
 
     private boolean simulateBankOffline() {
