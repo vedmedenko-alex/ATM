@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.solvd.atm.models.Account;
+import com.solvd.atm.models.Bill;
 import com.solvd.atm.models.Transaction;
 import com.solvd.atm.models.User;
 
@@ -30,6 +31,10 @@ public class ATMService {
         return userService.login(cardNumber, pin);
     }
 
+    public void payBill(int billId) throws Exception {
+        billService.payBill(billId);
+    }
+
     public List<Account> checkBalance(int userId) throws Exception {
         return accountService.getAccountsByUser(userId);
     }
@@ -51,12 +56,10 @@ public class ATMService {
         txn.setTxnType("WITHDRAW");
         txn.setAmount(amount);
         txn.setStatus("SUCCESS");
-       // вывать транзакшен сервис
+        // вывать транзакшен сервис
 
         return true;
     }
-
-
 
     private boolean simulateBankOffline() {
         return random.nextInt(10) < 2; // 20% шанс оффлайна

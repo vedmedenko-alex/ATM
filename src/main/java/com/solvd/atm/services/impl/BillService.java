@@ -13,14 +13,16 @@ public class BillService {
 
 	/**
 	 * Pays a bill by marking it as paid in the database.
+	 * 
 	 * @param billId the id of the bill to pay
 	 */
-	public void payBill(int billId) {
+	public void payBill(int billId) throws Exception {
 		billDAO.markAsPaid(billId);
 	}
 
 	/**
 	 * Returns all unpaid bills for a user.
+	 * 
 	 * @param userId the user's id
 	 * @return list of unpaid bills
 	 */
@@ -30,6 +32,7 @@ public class BillService {
 
 	/**
 	 * Returns all bills for a user.
+	 * 
 	 * @param userId the user's id
 	 * @return list of bills
 	 */
