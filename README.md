@@ -1,5 +1,3 @@
-Java ATM Project - README
-
 Project Overview:
 -----------------
 This Java-based ATM simulation project provides a simple command-line interface for users to perform basic banking operations such as checking balance, depositing funds, withdrawing money, and exiting the system. It is designed for educational purposes to demonstrate object-oriented programming, user input handling, and modular design in Java.
