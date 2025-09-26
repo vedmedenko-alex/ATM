@@ -19,28 +19,28 @@ public class TransactionMyBatisDao implements ITransactionDAO {
     @Override
     public void insert(Transaction transaction) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.insert("com.solvd.atm.mappers.TransactionMapper.insert", transaction);
+            session.insert("TransactionMapper.insert", transaction);
         }
     }
 
     @Override
     public Transaction getById(int id) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectOne("com.solvd.atm.mappers.TransactionMapper.getById", id);
+            return session.selectOne("TransactionMapper.getById", id);
         }
     }
 
     @Override
     public List<Transaction> getAll() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectList("com.solvd.atm.mappers.TransactionMapper.findAll");
+            return session.selectList("TransactionMapper.findAll");
         }
     }
 
     @Override
     public void update(Transaction transaction) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.update("com.solvd.atm.mappers.TransactionMapper.update", transaction);
+            session.update("TransactionMapper.update", transaction);
         }
 
     }
@@ -48,14 +48,14 @@ public class TransactionMyBatisDao implements ITransactionDAO {
     @Override
     public void delete(int id) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.delete("com.solvd.atm.mappers.TransactionMapper.delete", id);
+            session.delete("TransactionMapper.delete", id);
         }
     }
 
     @Override
     public List<Transaction> findAll() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectList("com.solvd.atm.mappers.TransactionMapper.findAll");
+            return session.selectList("TransactionMapper.findAll");
         }
     }
 
@@ -65,7 +65,7 @@ public class TransactionMyBatisDao implements ITransactionDAO {
             java.util.Map<String, Object> params = new java.util.HashMap<>();
             params.put("accountId", accountId);
             params.put("limit", limit);
-            return session.selectList("com.solvd.atm.mappers.TransactionMapper.findLastTransactions", params);
+            return session.selectList("TransactionMapper.findLastTransactions", params);
         }
     }
 }

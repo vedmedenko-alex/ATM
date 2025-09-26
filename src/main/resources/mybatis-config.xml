@@ -17,9 +17,9 @@
     </environments>
 
     <mappers>
-        <mapper resource="UserMapper"/>
-        <mapper resource="AccountMapper"/>
-        <mapper resource="TransactionMapper"/>
-        <mapper resource="BillMapper"/>
+        <mapper resource="mappers/UserMapper.xml"/>
+        <mapper resource="mappers/AccountMapper.xml"/>
+        <mapper resource="mappers/TransactionMapper.xml"/>
+        <mapper resource="mappers/BillMapper.xml"/>
     </mappers>
 </configuration>

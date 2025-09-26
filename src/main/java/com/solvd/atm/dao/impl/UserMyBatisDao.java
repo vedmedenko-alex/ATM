@@ -19,35 +19,35 @@ public class UserMyBatisDao implements IUserDAO {
     @Override
     public void insert(User user) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.insert("com.solvd.atm.mappers.UserMapper.insert", user);
+            session.insert("UserMapper.insert", user);
         }
     }
 
     @Override
     public User getById(int id) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectOne("com.solvd.atm.mappers.UserMapper.getById", id);
+            return session.selectOne("UserMapper.getById", id);
         }
     }
 
     @Override
     public List<User> getAll() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectList("com.solvd.atm.mappers.UserMapper.findAll");
+            return session.selectList("UserMapper.findAll");
         }
     }
 
     @Override
     public void update(User user) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.update("com.solvd.atm.mappers.UserMapper.update", user);
+            session.update("UserMapper.update", user);
         }
     }
 
     @Override
     public void delete(int id) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.delete("com.solvd.atm.mappers.UserMapper.delete", id);
+            session.delete("UserMapper.delete", id);
         }
     }
 
@@ -57,7 +57,7 @@ public class UserMyBatisDao implements IUserDAO {
             User params = new User();
             params.setCardNumber(cardNumber);
             params.setPin(pin);
-            return session.selectOne("com.solvd.atm.mappers.UserMapper.getByCardAndPin", params);
+            return session.selectOne("UserMapper.getByCardAndPin", params);
         }
     }
 }

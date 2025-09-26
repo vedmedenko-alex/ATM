@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.solvd.atm.dao.impl.TransactionMyBatisDao;
 import com.solvd.atm.models.Transaction;
+import com.solvd.atm.services.interfaces.ITransactionService;
 
-public class TransactionService {
+public class TransactionService implements ITransactionService {
     private final TransactionMyBatisDao transactionDAO;
 
     public TransactionService(TransactionMyBatisDao transactionDAO) {

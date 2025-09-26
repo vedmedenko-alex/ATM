@@ -7,8 +7,9 @@ import com.solvd.atm.models.Account;
 import com.solvd.atm.models.Bill;
 import com.solvd.atm.models.Transaction;
 import com.solvd.atm.models.User;
+import com.solvd.atm.services.interfaces.IATMService;
 
-public class ATMService {
+public class ATMService implements IATMService {
 
     private final UserService userService;
     private final AccountService accountService;
@@ -52,7 +53,7 @@ public class ATMService {
         txn.setTxnType("WITHDRAW");
         txn.setAmount(amount);
         txn.setStatus("SUCCESS");
-        // вывать транзакшен сервис
+        transactionService.addTransaction(txn);
 
         return true;
     }

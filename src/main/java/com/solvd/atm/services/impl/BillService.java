@@ -1,13 +1,15 @@
 package com.solvd.atm.services.impl;
 
-import com.solvd.atm.dao.impl.BillMyBatisDAO;
-import com.solvd.atm.models.Bill;
 import java.util.List;
 
-public class BillService {
-	private final BillMyBatisDAO billDAO;
+import com.solvd.atm.dao.impl.BillMyBatisDao;
+import com.solvd.atm.models.Bill;
+import com.solvd.atm.services.interfaces.IBillService;
 
-	public BillService(BillMyBatisDAO billDAO) {
+public class BillService implements  IBillService{
+	private final BillMyBatisDao billDAO;
+
+	public BillService(BillMyBatisDao billDAO) {
 		this.billDAO = billDAO;
 	}
 

@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.solvd.atm.dao.interfaces.IAccountDAO;
 import com.solvd.atm.models.Account;
+import com.solvd.atm.services.interfaces.IAccountService;
 
-public class AccountService {
+public class AccountService implements IAccountService {
 
     private final IAccountDAO accountDAO;
 

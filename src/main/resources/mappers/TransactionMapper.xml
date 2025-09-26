@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.solvd.atm.mappers.TransactionMapper">
+<mapper namespace="TransactionMapper">
 
     <resultMap id="TransactionResult" type="com.solvd.atm.models.Transaction">
         <id property="txnId" column="txn_id"/>

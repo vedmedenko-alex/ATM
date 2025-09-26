@@ -19,42 +19,42 @@ public class AccountMyBatisDao implements IAccountDAO {
     @Override
     public void insert(Account account) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.insert("com.solvd.atm.mappers.AccountMapper.insert", account);
+            session.insert("AccountMapper.insert", account);
         }
     }
 
     @Override
     public Account getById(int id) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectOne("com.solvd.atm.mappers.AccountMapper.getById", id);
+            return session.selectOne("AccountMapper.getById", id);
         }
     }
 
     @Override
     public List<Account> getAll() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectList("com.solvd.atm.mappers.AccountMapper.findAll");
+            return session.selectList("AccountMapper.findAll");
         }
     }
 
     @Override
     public void update(Account account) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.update("com.solvd.atm.mappers.AccountMapper.update", account);
+            session.update("AccountMapper.update", account);
         }
     }
 
     @Override
     public void delete(int id) {
         try (SqlSession session = sqlSessionFactory.openSession(true)) {
-            session.delete("com.solvd.atm.mappers.AccountMapper.delete", id);
+            session.delete("AccountMapper.delete", id);
         }
     }
 
     @Override
     public List<Account> getByUserId(int userId) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            return session.selectList("com.solvd.atm.mappers.AccountMapper.getByUserId", userId);
+            return session.selectList("AccountMapper.getByUserId", userId);
         }
     }
 
@@ -64,7 +64,7 @@ public class AccountMyBatisDao implements IAccountDAO {
             java.util.Map<String, Object> params = new java.util.HashMap<>();
             params.put("accountId", accountId);
             params.put("balance", newBalance);
-            session.update("com.solvd.atm.mappers.AccountMapper.updateBalance", params);
+            session.update("AccountMapper.updateBalance", params);
         }
     }
 }

@@ -1,8 +1,10 @@
-Project Overview:
+# ATM Simulation Project
+
+## Project Overview:
 -----------------
 This Java-based ATM simulation project provides a simple command-line interface for users to perform basic banking operations such as checking balance, depositing funds, withdrawing money, and exiting the system. It is designed for educational purposes to demonstrate object-oriented programming, user input handling, and modular design in Java.
 
-Features:
+## Features:
 ---------
 - User authentication (PIN-based login)
 - Balance inquiry
@@ -11,36 +13,73 @@ Features:
 - Input validation and error handling
 - Modular code structure using classes (e.g., ATM, Account, Transaction)
 
-Technologies Used:
+## Technologies Used:
 ------------------
-- Java SE (Standard Edition)
-- Console-based I/O (Scanner)
-- Object-Oriented Programming principles
+- Java 17+
+- MyBatis (XML mappers)
+- MySQL (or any relational DB)
+- Maven for dependency management
 
-Project Structure:
+## Project Structure:
 ------------------
-- ATM.java: App class that handles user interaction and menu navigation
-- Account.java: Represents a user's bank account with balance and operations
-- Transaction.java: (Optional) Logs and manages transaction history
-- Main.java: Entry point to launch the ATM system
+```
+src/main/java/com/solvd/atm/
+│
+├── App.java                 # Entry point (console UI)
+│
+├── dao/
+│   ├── interfaces/          # DAO interfaces (IGenericDAO, IUserDAO, IAccountDAO, etc.)
+│   └── mybatisimpl/         # MyBatis implementations of DAOs
+│
+├── models/                  # POJO models (User, Account, Bill, Transaction)
+│
+├── service/                 # Service layer
+│   ├── interfaces/          # Service interfaces
+│   └── impl/ 
+│      ├── ATMService.java  # ATM facade
+│      ├── UserService.java
+│      ├── AccountService.java
+│      ├── BillService.java
+│      └── TransactionService.java
+│
+└── resources/
+    ├── mybatis-config.xml   # MyBatis configuration
+    └── mappers/             # MyBatis XML mappers (UserMapper.xml, AccountMapper.xml, etc.)
 
-How to Run:
+```
+
+## How to Run:
 -----------
-1. Ensure you have Java installed (JDK 8 or higher).
-2. Clone or download the project files.
-3. Compile the Java files:
-   > javac *.java
-4. Run the App class:
-   > java App
-5. Follow the on-screen prompts to interact with the ATM system.
+1. Clone the repository
+```
+git clone https://github.com/vedmedenko-alex/ATM.git
+cd ATM
+```
+2. Configure database connection in resources/mybatis-config.xml.
 
-Customization:
+3. Run database schema script (atm.sql).
+
+4. Build and run the project:
+```
+mvn clean install
+mvn exec:java -D"exec.mainClass=com.solvd.atm.App" 
+```
+5. Use the console menu to interact with the ATM.
+
+
+## Customization:
 --------------
 - You can modify the initial account balance or add multiple accounts.
 - Extend functionality by adding features like fund transfer, account creation, or GUI.
 
-License:
+## Authors:
+--------
+Created by
+Karastan Vladislav
+Oleksandr Vedmedenko
+
+## License:
 --------
 This project is open-source and free to use for educational and non-commercial purposes.
-Created by Влад  
+
 Date: September 2025
