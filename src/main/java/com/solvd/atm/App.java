@@ -23,21 +23,11 @@ public class App {
 
     public static void main(String[] args) throws Exception{
 
-        SqlSessionFactory sqlSessionFactory
-                = new SqlSessionFactoryBuilder()
-                        .build(App.class.getClassLoader().getResourceAsStream("mybatis-config.xml"));
 
-
-        UserMyBatisDao userDAO = new UserMyBatisDao(sqlSessionFactory);
-        AccountMyBatisDao accountDAO = new AccountMyBatisDao(sqlSessionFactory);
-        TransactionMyBatisDao transactionDAO = new TransactionMyBatisDao(sqlSessionFactory);
-        BillMyBatisDao billDAO = new BillMyBatisDao(sqlSessionFactory);
-
-
-        UserService userService = new UserService(userDAO);
-        AccountService accountService = new AccountService(accountDAO);
-        TransactionService transactionService = new TransactionService(transactionDAO);
-        BillService billService = new BillService(billDAO);
+        UserService userService = new UserService();
+        AccountService accountService = new AccountService();
+        TransactionService transactionService = new TransactionService();
+        BillService billService = new BillService();
 
         ATMService atmService = new ATMService(userService, accountService, billService, transactionService);
 

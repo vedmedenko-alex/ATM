@@ -2,15 +2,20 @@ package com.solvd.atm.services.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+
 import com.solvd.atm.dao.impl.TransactionMyBatisDao;
 import com.solvd.atm.models.Transaction;
 import com.solvd.atm.services.interfaces.ITransactionService;
+import com.solvd.atm.utils.MyBatisUtil;
 
 public class TransactionService implements ITransactionService {
+
     private final TransactionMyBatisDao transactionDAO;
 
-    public TransactionService(TransactionMyBatisDao transactionDAO) {
-        this.transactionDAO = transactionDAO;
+    public TransactionService() {
+        SqlSessionFactory sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();
+        this.transactionDAO = new TransactionMyBatisDao(sqlSessionFactory);
     }
 
     /**

@@ -2,16 +2,20 @@ package com.solvd.atm.services.impl;
 
 import java.util.List;
 
-import com.solvd.atm.dao.interfaces.IAccountDAO;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import com.solvd.atm.dao.impl.AccountMyBatisDao;
 import com.solvd.atm.models.Account;
 import com.solvd.atm.services.interfaces.IAccountService;
+import com.solvd.atm.utils.MyBatisUtil;
 
 public class AccountService implements IAccountService {
 
-    private final IAccountDAO accountDAO;
+    private final AccountMyBatisDao accountDAO;
 
-    public AccountService(IAccountDAO accountDAO) {
-        this.accountDAO = accountDAO;
+    public AccountService() {
+        SqlSessionFactory sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();
+        this.accountDAO = new AccountMyBatisDao(sqlSessionFactory);
     }
 
     public List<Account> getAccountsByUser(int userId) throws Exception {
