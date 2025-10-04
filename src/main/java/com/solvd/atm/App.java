@@ -3,13 +3,10 @@ package com.solvd.atm;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.solvd.atm.dao.impl.AccountMyBatisDao;
-import com.solvd.atm.dao.impl.BillMyBatisDao;
-import com.solvd.atm.dao.impl.TransactionMyBatisDao;
-import com.solvd.atm.dao.impl.UserMyBatisDao;
 import com.solvd.atm.models.Account;
 import com.solvd.atm.models.Transaction;
 import com.solvd.atm.models.User;
@@ -21,20 +18,20 @@ import com.solvd.atm.services.impl.UserService;
 
 public class App {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream("mybatis-config.xml"));
 
         UserService userService = new UserService();
         AccountService accountService = new AccountService();
         TransactionService transactionService = new TransactionService();
         BillService billService = new BillService();
 
-        ATMService atmService = new ATMService(userService, accountService, billService, transactionService);
+        ATMService atmService = new ATMService(userService, accountService, billService, transactionService, sqlSessionFactory);
 
         Scanner scanner = new Scanner(System.in);
         User currentUser = null;
 
-        // Login
         while (currentUser == null) {
             System.out.println("Enter card number:");
             String card = scanner.nextLine();
@@ -46,15 +43,13 @@ public class App {
                 System.out.println("Invalid card or PIN. Try again.");
             }
         }
-        /*
-        ('Olena Krutyko', '1234567890123456', '1234', '555-1111'),
-        ('Ihor Klimuk', '9876543210987654', '4321', '555-2222'),
-        ('Martha Ladutko', '1111222233334444', '5678', '555-3333'); 
-        */
+
+        // ('Olena Krutyko', '1234567890123456', '1234', '555-1111'),
+        // ('Ihor Klimuk', '9876543210987654', '4321', '555-2222'),
+        // ('Martha Ladutko', '1111222233334444', '5678', '555-3333');
 
         System.out.println("Welcome, " + currentUser.getName() + "!");
 
-        // Main Menu
         boolean running = true;
         while (running) {
             System.out.println("\n===== ATM Menu =====");
@@ -69,65 +64,70 @@ public class App {
             int choice = Integer.parseInt(scanner.nextLine());
 
             switch (choice) {
-                case 1: // Check balance
+                case 1 -> {
                     List<Account> accounts = atmService.checkBalance(currentUser.getUserId());
                     accounts.forEach(acc
                             -> System.out.println("Account #" + acc.getAccountId()
-                                    + " (" + acc.getAccountType() + "): " + acc.getBalance() + " USD"));
-                    break;
+                                    + " (" + acc.getAccountType() + "): "
+                                    + acc.getBalance() + " USD"));
+                }
 
-                case 2: // Withdraw
+                case 2 -> {
                     System.out.print("Enter account ID: ");
                     int accIdW = Integer.parseInt(scanner.nextLine());
                     System.out.print("Enter amount: ");
                     double amountW = Double.parseDouble(scanner.nextLine());
+
                     if (atmService.withdraw(accIdW, amountW)) {
                         System.out.println("You withdrew " + amountW + " USD.");
                     } else {
-                        System.out.println("Withdrawal failed.");
+                        System.out.println("Withdrawal failed. ATM may be offline.");
                     }
-                    break;
+                }
 
-                case 3: // Deposit
+                case 3 -> {
                     System.out.print("Enter account ID: ");
                     int accIdD = Integer.parseInt(scanner.nextLine());
                     System.out.print("Enter amount: ");
                     double amountD = Double.parseDouble(scanner.nextLine());
+
                     if (atmService.deposit(accIdD, amountD)) {
                         System.out.println("You deposited " + amountD + " USD.");
                     } else {
-                        System.out.println("Deposit failed.");
+                        System.out.println("Deposit failed. ATM may be offline.");
                     }
-                    break;
+                }
 
-                case 4: // Pay bill
+                case 4 -> {
                     System.out.print("Enter account ID: ");
                     int accIdB = Integer.parseInt(scanner.nextLine());
                     System.out.print("Enter bill ID: ");
                     int billId = Integer.parseInt(scanner.nextLine());
+
                     if (atmService.payBill(accIdB, billId)) {
                         System.out.println("Bill #" + billId + " paid successfully.");
                     } else {
-                        System.out.println("Bill payment failed.");
+                        System.out.println("Bill payment failed. ATM may be offline.");
                     }
-                    break;
+                }
 
-                case 5: // Transaction history
+                case 5 -> {
                     System.out.print("Enter account ID: ");
                     int accIdT = Integer.parseInt(scanner.nextLine());
                     List<Transaction> txns = atmService.getLastTransactions(accIdT, 5);
-                    txns.forEach(txn
-                            -> System.out.println(txn.getTimestamp() + " | " + txn.getTxnType()
-                                    + " | " + txn.getAmount() + " USD | " + txn.getStatus()));
-                    break;
 
-                case 0:
+                    txns.forEach(txn
+                            -> System.out.println(txn.getTimestamp()
+                                    + " | " + txn.getTxnType()
+                                    + " | " + txn.getAmount() + " USD | " + txn.getStatus()));
+                }
+
+                case 0 -> {
                     running = false;
                     System.out.println("Thank you for using our ATM. Goodbye!");
-                    break;
+                }
 
-                default:
-                    System.out.println("Invalid choice.");
+                default -> System.out.println("Invalid choice.");
             }
         }
 

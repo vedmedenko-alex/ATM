@@ -1,7 +1,11 @@
 package com.solvd.atm.services.impl;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Random;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.solvd.atm.models.Account;
 import com.solvd.atm.models.Bill;
@@ -15,17 +19,22 @@ public class ATMService implements IATMService {
     private final AccountService accountService;
     private final BillService billService;
     private final TransactionService transactionService;
+    private final SqlSessionFactory sqlSessionFactory; 
 
     private final Random random = new Random();
 
     public ATMService(UserService userService,
             AccountService accountService,
             BillService billService,
-            TransactionService transactionService) {
+            TransactionService transactionService,
+            SqlSessionFactory sqlSessionFactory
+
+    ) {
         this.userService = userService;
         this.accountService = accountService;
         this.billService = billService;
         this.transactionService = transactionService;
+        this.sqlSessionFactory = sqlSessionFactory;
     }
 
     public User login(String cardNumber, String pin) throws Exception {
@@ -37,7 +46,7 @@ public class ATMService implements IATMService {
     }
 
     public boolean withdraw(int accountId, double amount) throws Exception {
-        if (simulateBankOffline()) {
+        if (simulateBankOffline("WITHDRAW", accountId, amount)) {
             return false;
         }
 
@@ -59,7 +68,7 @@ public class ATMService implements IATMService {
     }
 
     public boolean deposit(int accountId, double amount) throws Exception {
-        if (simulateBankOffline()) {
+        if (simulateBankOffline("DEPOSIT", accountId, amount)) {
             return false;
         }
 
@@ -78,7 +87,7 @@ public class ATMService implements IATMService {
     }
 
     public boolean payBill(int accountId, int billId) throws Exception {
-        if (simulateBankOffline()) {
+        if (simulateBankOffline("PAY_BILL", accountId, 0)) {
             return false;
         }
 
@@ -113,7 +122,38 @@ public class ATMService implements IATMService {
         return transactionService.getLastTransactions(accountId, limit);
     }
 
-    private boolean simulateBankOffline() {
-        return random.nextInt(10) < 2; // 20% шанс оффлайна
+    private boolean simulateBankOffline(String operation, int accountId, double amount) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            Connection conn = session.getConnection();
+
+            // 20% chance of offline
+            if (random.nextInt(10) < 2) {
+                conn.setAutoCommit(false);
+
+                Transaction failedTxn = new Transaction();
+                failedTxn.setAccountId(accountId);
+                failedTxn.setTxnType(operation);
+                failedTxn.setAmount(amount);
+                failedTxn.setStatus("FAILED");
+
+                transactionService.addTransaction(failedTxn);
+
+                conn.rollback();
+
+                System.out.println("ATM went offline during transaction. Auto-commit disabled, rolled back.");
+                return true;
+            }
+
+            try (var stmt = conn.createStatement()) {
+                stmt.execute("SELECT 1");
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            System.err.println("ATM offline due to DB error: " + e.getMessage());
+            return true;
+        }
     }
+
 }
